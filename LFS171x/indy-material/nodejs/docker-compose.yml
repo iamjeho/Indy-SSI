@@ -256,6 +256,32 @@ services:
         ipv4_address: 173.17.0.190
     volumes:
       - node1-data:/home/indy/ledger
+  
+  php-env:
+    build: .
+    volumes: 
+      - ./php:/var/www/html
+    ports:
+      - 9000:80
+
+  mysql_db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./sql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      
+  
+  phpmyadmin:
+    image: phpmyadmin 
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+
 
 volumes:
   webserver-cli:
